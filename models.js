@@ -52,7 +52,34 @@ const getUserById = (id) => {
 // hashea la contraseña antes de registrar al usuario
 const addUser = (userData) => {
   try {
-  } catch (error) {}
+    const {nombre,apellido, email, password} = userData;
+    if (!nombre || !apellido || !email || !password) {
+      throw new Error("Missing data");
+    }
+
+    const newUser ={
+      id : randomUUID(),
+      nombre : userData.nombre,
+      apellido : userData.apellido,
+      email : userData.email,
+      password : userData.password,
+      isLoggedIn : false,
+      createdAt: new Date().toISOString(),
+      updateAt: new Date().toISOString(),
+    }
+    const users = getUsers(PATH_FILE_USER);
+
+    users.push(newUser);
+
+    writeFileSync(PATH_FILE_USER, JSON.stringify(users));
+
+    return newUser;
+
+
+  } catch (error) {
+     //const objError = handleError(error, PATH_FILE_ERROR);
+     //return objError
+  }
 };
 
 // todos los datos del usuario seleccionado se podrían modificar menos el ID
@@ -60,12 +87,47 @@ const addUser = (userData) => {
 // si se modifica el email, validar que este no exista
 const updateUser = (userData) => {
   try {
-  } catch (error) {}
+    const {id ,nombre, apellido, email, password }= userData;
+    if ( !id || !userData){
+      throw new Error("ID is missing");
+    }
+    
+    const users = getUsers(PATH_FILE_USER);
+    const user = getUserById(id);
+
+    if (nombre) user.nombre = nombre;
+    if (apellido) user.apellido = apellido;
+    if (email) user.email = email;
+    if (password) user.password = password;
+   
+    user.updateAt = new Date().toISOString();
+
+    writeFileSync(PATH_FILE_USER, JSON.stringify(users));
+    return user;
+
+  } catch (error) {
+     //const objError = handleError(error, PATH_FILE_ERROR);
+     //return objError;
+  }
 };
 
 const deleteUser = (id) => {
   try {
-  } catch (error) {}
+    if (!id) {
+      throw new Error("ID is missing");
+  } 
+  const users = getUsers(PATH_FILE_USER);
+    const user = getUserById(id);
+
+    const newUsers = users.filter((user) => user.id !== id);
+
+    writeFileSync(PATH_FILE_USER, JSON.stringify(newUsers));
+
+    return user;
+  } catch (error) {
+    //const objError = handleError(error, PATH_FILE_ERROR);
+     //return objError;
+  }
 };
 
 export { getUsers, getUserById, addUser, updateUser, deleteUser };
