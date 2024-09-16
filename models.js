@@ -4,6 +4,7 @@ import { randomUUID } from "node:crypto";
 // Averiguar como "activar" la lectura de las variables de entorno del archivo .env (dotenv)
 import dotenv from "dotenv";
 import { handleError } from "./utils/handleError.js";
+import { error } from "node:console";
 
 // 1° recuperar variables de entorno
 dotenv.config();
@@ -13,17 +14,34 @@ const PATH_FILE_ERROR = process.env.PATH_FILE_ERROR;
 
 // 2° Declarar los metodos
 
-const getUsers = () => {
+//Función para listar los usuarios
+const getUsers = (urlFile) => {
   try {
+    if (!urlFile){
+      throw new Error("Acceso denegado!");
+    }
+    const exist = existsSync(urlFile);
+    if (!exist){
+      writeFileSync(urlFile,JSON.stringify([]));
+      return [];
+    }
+    const usuarios = JSON.parse(readFileSync(ulrFile));
+    return usuarios;
   } catch (error) {
-    // const objError = handleError()
-    // return objError;
+    //const objError = handleError(error, PATH_FILE_ERROR);
+   // return objError;
   }
 };
-
+//Función qque busca un usuario por su ID
 const getUserById = (id) => {
   try {
-  } catch (error) {}
+    if (!id) {
+      throw new Error("ID is missing");
+    }
+  } catch (error) {
+    //const objError = handleError(error, PATH_FILE_ERROR);
+    //return objError;
+  }
 };
 
 // addUser recibe un objeto con toda la data para el nuevo usuario
