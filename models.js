@@ -28,8 +28,8 @@ const getUsers = (urlFile) => {
     const usuarios = JSON.parse(readFileSync(ulrFile));
     return usuarios;
   } catch (error) {
-    //const objError = handleError(error, PATH_FILE_ERROR);
-   // return objError;
+    const objError = handleError(error, PATH_FILE_ERROR);
+    return objError;
   }
 };
 //Función qque busca un usuario por su ID
@@ -39,8 +39,8 @@ const getUserById = (id) => {
       throw new Error("ID is missing");
     }
   } catch (error) {
-    //const objError = handleError(error, PATH_FILE_ERROR);
-    //return objError;
+      const objError = handleError(error, PATH_FILE_ERROR);
+      return objError;
   }
 };
 
@@ -77,8 +77,8 @@ const addUser = (userData) => {
 
 
   } catch (error) {
-     //const objError = handleError(error, PATH_FILE_ERROR);
-     //return objError
+      const objError = handleError(error, PATH_FILE_ERROR);
+      return objError
   }
 };
 
@@ -106,8 +106,8 @@ const updateUser = (userData) => {
     return user;
 
   } catch (error) {
-     //const objError = handleError(error, PATH_FILE_ERROR);
-     //return objError;
+       const objError = handleError(error, PATH_FILE_ERROR);
+       return objError;
   }
 };
 
@@ -125,8 +125,8 @@ const deleteUser = (id) => {
 
     return user;
   } catch (error) {
-    //const objError = handleError(error, PATH_FILE_ERROR);
-     //return objError;
+      const objError = handleError(error, PATH_FILE_ERROR);
+      return objError;
   }
 };
 
